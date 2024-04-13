@@ -10,25 +10,26 @@ import {
 } from "@nextui-org/react";
 import Link from "next/link";
 import {useState} from "react";
+import {useAuth} from "@/context/auth-context";
 
 
 function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-    const user = true;
+    const {userInfo} = useAuth()
 
     return (
         <Navbar isBordered isMenuOpen={isMenuOpen} onMenuOpenChange={setIsMenuOpen}>
             <NavbarBrand>
                 <p className="font-bold cursor-pointer hover:scale-105 ease-in duration-200">
-                    <Link href={user ? "/feed" : "/"}>
+                    <Link href={userInfo ? "/feed" : "/"}>
                         Hermes
                     </Link>
                 </p>
             </NavbarBrand>
             <NavbarContent className="hidden sm:flex gap-4" justify="center">
                 {/* When user is logged in */}
-                {user &&
+                {userInfo &&
                     <>
                         <NavbarItem isActive>
                             <Link href="/feed" aria-current="page">
@@ -46,7 +47,7 @@ function Header() {
             {/* Desktop menu */}
             <NavbarContent justify="end">
                 {/* When user is logged in */}
-                {user &&
+                {userInfo &&
                     <>
                         <NavbarItem className="hidden lg:flex">
                             <Button color="primary" href="/logout" variant="flat">
@@ -56,7 +57,7 @@ function Header() {
                     </>
                 }
                 {/* When user is not logged in*/}
-                {!user &&
+                {!userInfo &&
                     <>
                         <NavbarItem className="hidden lg:flex">
                             <Button href="/login" variant="flat" color="primary">
@@ -77,7 +78,7 @@ function Header() {
                 {/* Mobile menu */}
                 <NavbarMenu>
                     {/* When user is logged in */}
-                    {user &&
+                    {userInfo &&
                         <>
                             <NavbarMenuItem className="hover:text-blue-500 ease-in duration-200 text-xl">
                                 <Link href="/feed">Feed</Link>
@@ -90,11 +91,11 @@ function Header() {
                             </NavbarMenuItem>
                         </>
                     }
-                    {/* Where user is not logged in */}
-                    {!user &&
+                    {/* When user is not logged in */}
+                    {!userInfo &&
                         <>
                             <NavbarMenuItem className="hover:text-blue-500 ease-in duration-200 text-xl">
-                                <Link href="/">Home</Link>
+                                <Link href="/public">Home</Link>
                             </NavbarMenuItem>
                             <NavbarMenuItem className="hover:text-blue-500 ease-in duration-200 text-xl">
                                 <Link href="/login">Login</Link>

@@ -1,6 +1,10 @@
-'use client'
+"use client";
 import {Button, Card, CardBody, CardFooter, CardHeader, Checkbox, Input, Link} from "@nextui-org/react";
 import {useState} from "react";
+import axios from "axios";
+import {useAuth} from "@/context/auth-context";
+import {useRouter} from "next/navigation";
+import ErrorAlert from "@/components/shared/alerts/error-alert";
 
 function RegisterPage() {
     const [username, setUsername] = useState("");
@@ -12,6 +16,10 @@ function RegisterPage() {
     const [isEmailInvalid, setIsEmailInvalid] = useState(false);
     const [isPasswordMatching, setIsPasswordMatching] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [registrationError, setRegistrationError] = useState(false);
+
+    const {login} = useAuth();
+    const router = useRouter();
 
     //Checks if email is in valid form
     function emailValidation(email) {
@@ -22,19 +30,19 @@ function RegisterPage() {
     //Checks if form is valid for submit
     function formValidationCheck() {
         if (username && email && password && retypedPassword && isPasswordMatching && termsChecked) {
-            return true
+            return true;
         } else {
-            return false
+            return false;
         }
     }
 
     function emailHandler(e) {
-        const newValue = e.target.value
-        setEmail(newValue)
+        const newValue = e.target.value;
+        setEmail(newValue);
         if (!emailValidation(newValue)) {
-            setIsEmailInvalid(true)
-        }else{
-            setIsEmailInvalid(false)
+            setIsEmailInvalid(true);
+        } else {
+            setIsEmailInvalid(false);
         }
     }
 
@@ -43,9 +51,9 @@ function RegisterPage() {
         const newValue = e.target.value;
         setPassword(newValue);
         if (newValue === retypedPassword) {
-            setIsPasswordMatching(true)
+            setIsPasswordMatching(true);
         } else {
-            setIsPasswordMatching(false)
+            setIsPasswordMatching(false);
         }
     }
 
@@ -54,22 +62,36 @@ function RegisterPage() {
         const newValue = e.target.value;
         setRetypedPassword(newValue);
         if (newValue === password) {
-            setIsPasswordMatching(true)
+            setIsPasswordMatching(true);
         } else {
-            setIsPasswordMatching(false)
+            setIsPasswordMatching(false);
         }
     }
 
     function registerSubmitHandler() {
-        //todo: Register logic
+        setIsLoading(true);
+        axios
+            .post("http://localhost:8081/api/users/register", {username, email, password})
+            .then((response) => {
+                console.log("User registered successfully", response.data);
+                login(response.data.token, response.data.user);
+                router.push('/feed');
+            })
+            .catch((error) => {
+                console.error(error);
+                setRegistrationError(error.response.data.message);
+            })
+            .finally(() => {
+                setIsLoading(false);
+            });
     }
 
-    console.log(username, email, password, retypedPassword, isPasswordMatching, termsChecked)
     return (
         <div className="flex justify-center items-center h-screen">
             <Card radius="md" className="w-[90%] md:w-[60%] lg:w-[40%] 2xl:w-[20%] mb-[30%] md:mb-[10%] p-4">
                 <CardHeader className="flex justify-center items-center">
                     <h1 className="text-2xl">Register</h1>
+                    {registrationError && <ErrorAlert message={registrationError}/>}
                 </CardHeader>
                 <CardBody>
                     <Input
@@ -88,12 +110,7 @@ function RegisterPage() {
                         onChange={emailHandler}
                         value={email}
                     />
-                    <Input
-                        className="my-4"
-                        label="Password"
-                        onChange={passwordHandler}
-                        value={password}
-                    />
+                    <Input className="my-4" label="Password" onChange={passwordHandler} value={password}/>
                     <Input
                         className="my-4"
                         label="Retype Password"
@@ -126,7 +143,7 @@ function RegisterPage() {
                 </CardFooter>
             </Card>
         </div>
-    )
+    );
 }
 
 export default RegisterPage;

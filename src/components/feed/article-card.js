@@ -1,7 +1,16 @@
 'use client'
 import {Button, Card, CardFooter, CardHeader, Image} from "@nextui-org/react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faLandmark, faDollarSign, faFutbol, faQuestion, faMugSaucer} from "@fortawesome/free-solid-svg-icons";
+import {
+    faLandmark,
+    faDollarSign,
+    faFutbol,
+    faQuestion,
+    faMugSaucer,
+    faStaffSnake,
+    faComputer
+} from "@fortawesome/free-solid-svg-icons";
+import Link from "next/link";
 
 function ArticleCard({article}) {
 
@@ -15,6 +24,10 @@ function ArticleCard({article}) {
                 return faFutbol
             case "lifestyle":
                 return faMugSaucer
+            case "health":
+                return faStaffSnake
+            case "technology":
+                return faComputer
             default:
                 return faQuestion
         }
@@ -43,7 +56,9 @@ function ArticleCard({article}) {
                         </p>
                     </div>
                     <div className="mx-2">
-                        <Button radius="md" size="sm">Read Article</Button>
+                        <Link href={`/feed/${article.uuid}`}>
+                            <Button radius="md" size="sm">Read Article</Button>
+                        </Link>
                     </div>
                 </div>
             </CardFooter>
