@@ -40,8 +40,6 @@ function ArticleSinglePage() {
             .catch((error) => console.error(error))
     }
 
-    console.log(article)
-
     return (
         <div className='xl:mx-40 p-4'>
             {isLoading && <Spinner/>}

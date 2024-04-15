@@ -1,9 +1,12 @@
-function ErrorAlert({ message }) {
-   return (
-      <div className="text-white text-xl rounded shadow-md border-2 border-red-800 p-2">
-         <h1>{message}</h1>
-      </div>
-   );
+function ErrorAlert({message}) {
+    return (
+        <div
+            className="p-4 mt-3 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+            role="alert"
+        >
+            {message}
+        </div>
+    );
 }
 
 export default ErrorAlert

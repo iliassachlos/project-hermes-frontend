@@ -8,7 +8,7 @@ const AuthContext = createContext(undefined);
 // Authentication provider component
 export function AuthProvider({children}) {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [userInfo, setUserInfo] = useState([])
+    const [userInfo, setUserInfo] = useState()
 
     const router = useRouter()
 
@@ -43,6 +43,7 @@ export function AuthProvider({children}) {
     }
 
     function logout() {
+        localStorage.removeItem('userInfo');
         localStorage.removeItem('token');
         setIsAuthenticated(false);
         router.push('/')

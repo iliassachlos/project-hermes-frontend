@@ -1,17 +1,18 @@
 'use client'
 import {useRouter} from "next/navigation";
 import {useEffect} from "react";
+import {useAuth} from "@/context/auth-context";
 
 export default function Home() {
-    const user = true
 
+    const {isAuthenticated} = useAuth()
     const router = useRouter()
 
     useEffect(() => {
-        if (user) {
-            router.push("/feed");
+        if (isAuthenticated) {
+            router.push('/feed')
         }
-    }, [user, router]);
+    }, [isAuthenticated, router]);
 
     return (
         <div className="flex justify-center items-center h-screen">
