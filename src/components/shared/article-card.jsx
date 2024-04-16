@@ -1,43 +1,15 @@
 'use client'
-import {Button, Card, CardFooter, CardHeader, Image} from "@nextui-org/react";
+import {Button, Card, CardFooter, CardHeader, Image, Popover, Tooltip} from "@nextui-org/react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {
-    faLandmark,
-    faDollarSign,
-    faFutbol,
-    faQuestion,
-    faMugSaucer,
-    faStaffSnake,
-    faComputer
-} from "@fortawesome/free-solid-svg-icons";
+import {iconSelector} from "@/utilities/icon-selector";
 import Link from "next/link";
 
 function ArticleCard({article}) {
-
-    function iconSelector() {
-        switch (article.category) {
-            case "politics":
-                return faLandmark
-            case "economy":
-                return faDollarSign
-            case "sports":
-                return faFutbol
-            case "lifestyle":
-                return faMugSaucer
-            case "health":
-                return faStaffSnake
-            case "technology":
-                return faComputer
-            default:
-                return faQuestion
-        }
-    }
-
     return (
         <Card isFooterBlurred className="flex h-[300px] col-span-12 sm:col-span-7">
-            <CardHeader className="absolute top-1">
-                <div className="bg-black/50 backdrop-blur-md rounded-md px-1">
-                    <FontAwesomeIcon className="text-white" icon={iconSelector()}/>
+            <CardHeader className="absolute w-full flex justify-between items-start p-3">
+                <div className="bg-black/30 backdrop-blur-md rounded-md px-2 py-[2px]">
+                    <FontAwesomeIcon className="text-white" icon={iconSelector(article)}/>
                 </div>
             </CardHeader>
             <Image

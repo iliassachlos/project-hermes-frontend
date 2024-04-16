@@ -46,7 +46,7 @@ function LoginPage() {
         e.preventDefault();
         try {
             setIsLoading(true);
-            const response = await axios.post('http://localhost:8081/api/users/login', {email, password});
+            const response = await axios.post('http://localhost:8083/api/users/login', {email, password});
             login(response.data.token, response.data.user);
             router.push('/feed');
         } catch (error) {

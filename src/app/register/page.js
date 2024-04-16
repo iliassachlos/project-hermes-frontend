@@ -71,7 +71,7 @@ function RegisterPage() {
     function registerSubmitHandler() {
         setIsLoading(true);
         axios
-            .post("http://localhost:8081/api/users/register", {username, email, password})
+            .post("http://localhost:8083/api/users/register", {username, email, password})
             .then((response) => {
                 console.log("User registered successfully", response.data);
                 login(response.data.token, response.data.user);
