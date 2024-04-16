@@ -4,7 +4,7 @@ import {useRouter} from "next/navigation";
 import ArticleCard from "@/components/shared/article-card";
 import {useAuth} from "@/context/auth-context";
 import axios from "axios";
-import {Pagination, Skeleton, Spinner} from "@nextui-org/react";
+import {Pagination, Spinner} from "@nextui-org/react";
 
 function BookmarkedArticlesPage() {
     const [bookmarkedArticles, setBookmarkedArticles] = useState([]);
@@ -21,11 +21,7 @@ function BookmarkedArticlesPage() {
     const router = useRouter()
 
     useEffect(() => {
-        if (userInfo) {
-            fetchAllArticles()
-        } else {
-            router.push("/")
-        }
+        fetchAllArticles()
     }, [userInfo, router])
 
     async function fetchAllArticles() {
@@ -46,12 +42,13 @@ function BookmarkedArticlesPage() {
     }
 
     return (
-        <div>
+        <div className="p-2">
+            <h1 className="text-4xl font-semibold py-3 md:py-2 px-4">Bookmarked Articles</h1>
             {isLoading && <div className="flex justify-center items-center h-screen"><Spinner/></div>}
             {!isLoading &&
                 <>
                     <div
-                        className="flex flex-col justify-center items-center md:grid md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-3 p-2 md:p-4">
+                        className="flex flex-col justify-center items-center md:grid md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 py-3 gap-3 md:p-4">
                         {currentBookmarkedArticles.map((bookmarkedArticle, index) => (
                             <div className="flex" key={index}>
                                 <ArticleCard article={bookmarkedArticle}/>

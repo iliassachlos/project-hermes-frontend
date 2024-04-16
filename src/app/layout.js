@@ -7,6 +7,7 @@ import {ThemeSwitcher} from "@/components/shared/theme-switcher";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import {config} from "@fortawesome/fontawesome-svg-core";
 import {AuthProvider} from "@/context/auth-context";
+import {PaginationProvider} from "@/context/pagination-context";
 
 config.autoAddCss = false;
 
@@ -19,7 +20,9 @@ export default function RootLayout({children}) {
                 <AuthProvider>
                     <Header/>
                     <ThemeSwitcher/>
-                    {children}
+                    <PaginationProvider>
+                        {children}
+                    </PaginationProvider>
                 </AuthProvider>
             </NextThemesProvider>
         </NextUIProvider>

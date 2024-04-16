@@ -2,7 +2,7 @@
 import {useParams} from "next/navigation";
 import {useEffect, useState} from "react";
 import axios from "axios";
-import {Button, Card, Skeleton, Tooltip, user,} from "@nextui-org/react";
+import {Button, Card, Skeleton, Tooltip} from "@nextui-org/react";
 import {Image} from "@nextui-org/react";
 import Link from "next/link";
 import {formatDate} from "@/utilities/format-date";
@@ -100,8 +100,8 @@ function ArticleSinglePage() {
                     <Skeleton className="rounded-md my-4" isLoaded={article}>
                         <div className="flex mb-4">
                             <h2 className="text-gray-500 text-sm capitalize">{article?.source}</h2>
-                            <span className="text-purple-500 font-bold mx-1">&gt;</span>
-                            <h2 className="font-semibold text-sm capitalize"> {article?.category}</h2>
+                            <span className="text-purple-500 font-bold mb-1 mx-1">&gt;</span>
+                            <h2 className="font-semibold text-sm capitalize">{article?.category}</h2>
                         </div>
                     </Skeleton>
                     <Skeleton className="rounded-md my-4" isLoaded={article}>
