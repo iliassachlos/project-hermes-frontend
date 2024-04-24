@@ -2,7 +2,7 @@
 function WebsitesBlock(){
     return(
         <div>
-            <h1>websites block</h1>
+            <h1>Websites block</h1>
         </div>
     )
 }

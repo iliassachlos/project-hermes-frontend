@@ -1,33 +1,40 @@
-import {faNewspaper, faGlobe, faUser} from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faNewspaper, faGlobe, faUser, faHome} from "@fortawesome/free-solid-svg-icons";
+import SidebarItem from "@/components/admin/sidebar/sidebar-item";
 
-function Sidebar({onChangeActiveCategory}) {
+function Sidebar({onChangeActiveCategory, activeCategory}) {
 
     return (
         <div className="flex flex-col">
-            <div
-                className="flex items-center rounded-md p-3 hover:bg-gray-200 ease-in duration-200 cursor-pointer"
-                onClick={() => onChangeActiveCategory("websites")}
-            >
-                <FontAwesomeIcon icon={faGlobe}/>
-                <h1 className="text-xl mx-3">Websites</h1>
-            </div>
-            <div
-                className="flex items-center rounded-md p-3 hover:bg-gray-200 ease-in duration-200 cursor-pointer"
-                onClick={() => onChangeActiveCategory("articles")}
-            >
-                <FontAwesomeIcon icon={faNewspaper}/>
-                <h1 className="text-xl mx-3">Articles</h1>
-            </div>
-            <div
-                className="flex items-center rounded-md p-3 hover:bg-gray-200 ease-in duration-200 cursor-pointer"
-                onClick={() => onChangeActiveCategory("users")}
-            >
-                <FontAwesomeIcon icon={faUser}/>
-                <h1 className="text-xl mx-3">Users</h1>
-            </div>
+            <SidebarItem
+                icon={faHome}
+                text="Home"
+                category="home"
+                onChangeActiveCategory={onChangeActiveCategory}
+                active={activeCategory === "home"}
+            />
+            <SidebarItem
+                icon={faGlobe}
+                text="Websites"
+                category="websites"
+                onChangeActiveCategory={onChangeActiveCategory}
+                active={activeCategory === "websites"}
+            />
+            <SidebarItem
+                icon={faNewspaper}
+                text="Articles"
+                category="articles"
+                onChangeActiveCategory={onChangeActiveCategory}
+                active={activeCategory === "articles"}
+            />
+            <SidebarItem
+                icon={faUser}
+                text="Users"
+                category="users"
+                onChangeActiveCategory={onChangeActiveCategory}
+                active={activeCategory === "users"}
+            />
         </div>
-    )
+    );
 }
 
 export default Sidebar
