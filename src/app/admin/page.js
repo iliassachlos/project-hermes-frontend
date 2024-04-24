@@ -1,28 +1,42 @@
 'use client'
-import {Divider} from "@nextui-org/react";
+import {Button, Divider} from "@nextui-org/react";
 import Sidebar from "@/components/admin/sidebar/sidebar";
 import {useState} from "react";
 import WebsitesBlock from "@/components/admin/websites-block";
 import ArticlesBlock from "@/components/admin/articles-block";
 import UsersBlock from "@/components/admin/users-block";
 import HomeBlock from "@/components/admin/home-block";
+import Drawer from "react-modern-drawer"
+import 'react-modern-drawer/dist/index.css'
 
 function AdminPage() {
     const [activeCategory, setActiveCategory] = useState("home");
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     function changeActiveCategory(category) {
         setActiveCategory(category);
     }
 
+    function toggleSidebar() {
+        setIsSidebarOpen(!isSidebarOpen);
+    }
+
     return (
-        <div className="flex flex-row">
-            <div className="flex justify-center w-[20%] h-screen p-2">
+        <div className="flex flex-col md:flex-row">
+            <Drawer open={isSidebarOpen} onClose={toggleSidebar} direction="left">
+                <Sidebar onChangeActiveCategory={changeActiveCategory} activeCategory={activeCategory}/>
+            </Drawer>
+            <div className="text-center md:hidden p-2">
+                <Button variant="faded" onClick={() => toggleSidebar()}>Open Sidebar</Button>
+                <Divider className="my-2"/>
+            </div>
+            <div className="hidden md:block md:w-[20%] md:2xl:w-[10%] md:h-screen p-2">
                 <Sidebar onChangeActiveCategory={changeActiveCategory} activeCategory={activeCategory}/>
             </div>
-            <div>
-                <Divider className="h-screen mx-2" orientation="vertical"/>
+            <div className="hidden md:block">
+                <Divider className="h-screen" orientation="vertical"/>
             </div>
-            <div className="w-full h-screen p-2">
+            <div className="w-full md:h-screen p-3">
                 {activeCategory === 'home' && <HomeBlock/>}
                 {activeCategory === 'websites' && <WebsitesBlock/>}
                 {activeCategory === 'articles' && <ArticlesBlock/>}
