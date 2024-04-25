@@ -1,4 +1,4 @@
-import {faNewspaper, faGlobe, faUser, faHome} from "@fortawesome/free-solid-svg-icons";
+import {faNewspaper, faGlobe, faUser, faHome,faMagnifyingGlass} from "@fortawesome/free-solid-svg-icons";
 import SidebarItem from "@/components/admin/sidebar/sidebar-item";
 
 function Sidebar({onChangeActiveCategory, activeCategory}) {
@@ -18,6 +18,13 @@ function Sidebar({onChangeActiveCategory, activeCategory}) {
                 category="websites"
                 onChangeActiveCategory={onChangeActiveCategory}
                 active={activeCategory === "websites"}
+            />
+            <SidebarItem
+                icon={faMagnifyingGlass}
+                text="Selectors"
+                category="selectors"
+                onChangeActiveCategory={onChangeActiveCategory}
+                active={activeCategory === "selectors"}
             />
             <SidebarItem
                 icon={faNewspaper}

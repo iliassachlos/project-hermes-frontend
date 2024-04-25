@@ -8,9 +8,10 @@ import UsersBlock from "@/components/admin/users-block";
 import HomeBlock from "@/components/admin/home-block";
 import Drawer from "react-modern-drawer"
 import 'react-modern-drawer/dist/index.css'
+import SelectorsBlock from "@/components/admin/selectors-block";
 
 function AdminPage() {
-    const [activeCategory, setActiveCategory] = useState("home");
+    const [activeCategory, setActiveCategory] = useState("websites");
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     function changeActiveCategory(category) {
@@ -39,6 +40,7 @@ function AdminPage() {
             <div className="w-full md:h-screen p-3">
                 {activeCategory === 'home' && <HomeBlock/>}
                 {activeCategory === 'websites' && <WebsitesBlock/>}
+                {activeCategory === 'selectors' && <SelectorsBlock/>}
                 {activeCategory === 'articles' && <ArticlesBlock/>}
                 {activeCategory === 'users' && <UsersBlock/>}
             </div>

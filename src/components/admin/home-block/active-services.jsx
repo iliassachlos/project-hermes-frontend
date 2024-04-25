@@ -23,15 +23,12 @@ function ActiveServices() {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        if (typeof window !== 'undefined') {
-            checkServiceStatus();
-        }
+        checkServiceStatus();
     }, []);
 
     async function checkServiceStatus() {
         setIsLoading(true)
         try {
-            console.log("Checking elastic service status..")
             const elasticServiceResponse = await axios.get('http://localhost:8083/api/elastic/status')
             setElasticStatus(elasticServiceResponse.status)
         } catch (error) {
@@ -40,7 +37,6 @@ function ActiveServices() {
         }
 
         try {
-            console.log("Checking api-gateway service status..")
             const apiGwServiceResponse = await axios.get('http://localhost:8083/api/apigw/status')
             setApigwStatus(apiGwServiceResponse.status)
         } catch (error) {
@@ -49,7 +45,6 @@ function ActiveServices() {
         }
 
         try {
-            console.log("Checking article service status..")
             const articleStatusResponse = await axios.get('http://localhost:8083/api/articles/status')
             setArticleStatus(articleStatusResponse.status)
         } catch (error) {
@@ -58,7 +53,6 @@ function ActiveServices() {
         }
 
         try {
-            console.log("Checking scrape service status..")
             const scrapeStatusResponse = await axios.get('http://localhost:8083/api/scraping/status')
             setScrapeStatus(scrapeStatusResponse.status)
         } catch (error) {
@@ -67,7 +61,6 @@ function ActiveServices() {
         }
 
         try {
-            console.log("Checking user service status..")
             const userServiceResponse = await axios.get('http://localhost:8083/api/users/status')
             setUserStatus(userServiceResponse.status)
         } catch (error) {
