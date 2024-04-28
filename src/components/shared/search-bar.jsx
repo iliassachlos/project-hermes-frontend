@@ -96,7 +96,7 @@ function SearchBar({onFilteredArticles, onFetchAllArticles}) {
                 onBlur={() => setShowSuggestions(false)}
             />
             {showSuggestions && (
-                <div className="absolute top-36 z-40 bg-black rounded-md shadow-lg">
+                <div className="absolute top-36 z-40 bg-white dark:bg-black rounded-md shadow-lg">
                     {suggestions.map((suggestion, index) => (
                         <div
                             key={index}

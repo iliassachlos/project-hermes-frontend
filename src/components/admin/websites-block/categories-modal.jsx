@@ -60,24 +60,24 @@ function CategoriesModal({isCategoriesModalOpen, onCategoriesModalHandler, websi
         }
     }
 
-    async function deleteCategory(index) {
-        // try {
-        //     const updatedCategories = categoriesArray.filter((item, itemIndex) => itemIndex !== index)[0];
-        //     const response = await axios.put('http://localhost:8083/api/scraping/website/category/delete', {
-        //         id: websiteUUID,
-        //         categories: updatedCategories
-        //     })
-        //     if (response.status === 200) {
-        //         setInfoMessage("Category deleted successfully, reload modal to see changes")
-        //     } else {
-        //         setErrorMessage("An error occurred. Please try again")
-        //     }
-        // } catch (error) {
-        //     console.log(error)
-        // } finally {
-        //     clearFields()
-        //     fetchWebsiteByUUID()
-        // }
+    async function deleteCategory(category) {
+        try {
+            console.log(category)
+            const response = await axios.put(`http://localhost:8083/api/scraping/website/category/delete`, {
+                id: websiteUUID,
+                categoryToDelete: category,
+            });
+            if (response.status === 200) {
+                setInfoMessage("Category deleted successfully, reload modal to see changes");
+            } else {
+                setErrorMessage("An error occurred. Please try again");
+            }
+        } catch (error) {
+            console.log(error);
+        } finally {
+            clearFields();
+            fetchWebsiteByUUID();
+        }
     }
 
     function clearFields() {
@@ -138,7 +138,7 @@ function CategoriesModal({isCategoriesModalOpen, onCategoriesModalHandler, websi
                                             <TableCell>
                                                 <Tooltip content="Delete category">
                                                     <Chip className="cursor-pointer p-2" variant="flat" color="danger"
-                                                          onClick={() => deleteCategory(index)}>
+                                                          onClick={() => deleteCategory(item.category)}>
                                                         <FontAwesomeIcon icon={faTrash}/>
                                                     </Chip>
                                                 </Tooltip>
