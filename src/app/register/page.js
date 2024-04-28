@@ -110,9 +110,16 @@ function RegisterPage() {
                         onChange={emailHandler}
                         value={email}
                     />
-                    <Input className="my-4" label="Password" onChange={passwordHandler} value={password}/>
                     <Input
                         className="my-4"
+                        type="password"
+                        label="Password"
+                        onChange={passwordHandler}
+                        value={password}
+                    />
+                    <Input
+                        className="my-4"
+                        type="password"
                         label="Retype Password"
                         isInvalid={!isPasswordMatching}
                         errorMessage={!isPasswordMatching ? "Password does not match" : ""}
