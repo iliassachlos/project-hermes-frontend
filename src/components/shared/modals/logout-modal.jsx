@@ -6,7 +6,7 @@ function LogoutModal({onHandleLogout, onLogoutModalHandler, isOpen}) {
             <ModalContent>
                 {(onClose) => (
                     <>
-                        <ModalHeader className="flex flex-col gap-1">Modal Title</ModalHeader>
+                        <ModalHeader className="flex flex-col gap-1">Logging Out</ModalHeader>
                         <ModalBody>
                             <h1>Are you sure you want to logout?</h1>
                         </ModalBody>

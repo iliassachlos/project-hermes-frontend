@@ -8,9 +8,11 @@ function ArticleCard({article}) {
     return (
         <Card isFooterBlurred className="flex h-[300px] col-span-12 sm:col-span-7">
             <CardHeader className="absolute w-full flex justify-between items-start p-3">
-                <div className="bg-black/30 backdrop-blur-md rounded-md px-2 py-[2px]">
-                    <FontAwesomeIcon className="text-white" icon={iconSelector(article)}/>
-                </div>
+                <Tooltip content={article.category.charAt(0).toUpperCase() + article.category.slice(1)}>
+                    <div className="bg-black/30 backdrop-blur-md rounded-md px-2 py-[2px]">
+                        <FontAwesomeIcon className="text-white" icon={iconSelector(article)}/>
+                    </div>
+                </Tooltip>
             </CardHeader>
             <Image
                 removeWrapper

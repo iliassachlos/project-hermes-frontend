@@ -1,10 +1,12 @@
 import React, {useState} from 'react';
-import {Input} from "@nextui-org/react";
+import {Button, Input} from "@nextui-org/react";
 import axios from 'axios';
+import SearchbarHelpModal from "@/components/shared/modals/searchbar-help-modal";
 
 function SearchBar({onFilteredArticles, onFetchAllArticles}) {
     const [query, setQuery] = useState('');
     const [showSuggestions, setShowSuggestions] = useState(false);
+    const [isSearchbarHelpModalOpen, setIsSearchbarHelpModalOpen] = useState(false);
     const suggestions = ['title:', 'content:', 'time:', 'image:', 'source:', 'category:'];
 
     function parseQuery(query) {
@@ -69,10 +71,18 @@ function SearchBar({onFilteredArticles, onFetchAllArticles}) {
         }
     }
 
+    function searchbarHelpHandler() {
+        setIsSearchbarHelpModalOpen(!isSearchbarHelpModalOpen)
+    }
+
+
     return (
         <>
+            <div className="ml-4 md:ml-44 lg:ml-72 2xl:ml-[450px] mr-4">
+                <Button radius="md" size="sm" onClick={searchbarHelpHandler}>Need Help?</Button>
+            </div>
             <Input
-                className="mx-4 md:mx-44 lg:mx-72 2xl:mx-[700px] my-2"
+                className="mr-4 md:mr-44 lg:mr-72 2xl:mr-[450px] my-2"
                 type="text"
                 label="Search.."
                 value={query}
@@ -113,6 +123,12 @@ function SearchBar({onFilteredArticles, onFetchAllArticles}) {
                     ))}
                 </div>
             )}
+            {isSearchbarHelpModalOpen &&
+                <SearchbarHelpModal
+                    onSearchbarHelpHandler={searchbarHelpHandler}
+                    isOpen={isSearchbarHelpModalOpen}
+                />
+            }
         </>
     )
 }
