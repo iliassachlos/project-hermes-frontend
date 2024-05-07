@@ -35,7 +35,7 @@ function WebsitesCard() {
 
     async function fetchAllWebsites() {
         try {
-            const response = await axios.get('http://localhost:8083/api/scraping/website');
+            const response = await axios.get('http://localhost:8083/api/scraping/website/all');
             switch (response.status) {
                 case 200:
                     setWebsites(response.data)

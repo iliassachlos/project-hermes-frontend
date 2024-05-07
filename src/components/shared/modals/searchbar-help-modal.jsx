@@ -1,4 +1,4 @@
-import {Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader} from "@nextui-org/react";
+import {Button, Chip, Code, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader} from "@nextui-org/react";
 
 function SearchbarHelpModal({onSearchbarHelpHandler, isOpen}) {
     return (
@@ -6,35 +6,44 @@ function SearchbarHelpModal({onSearchbarHelpHandler, isOpen}) {
             <ModalContent>
                 {(onClose) => (
                     <>
-                        <ModalHeader className="flex flex-col gap-1">Need Help?</ModalHeader>
-                        <ModalBody>
+                        <ModalHeader className="flex flex-col gap-1 text-xl">Need Help?</ModalHeader>
+                        <ModalBody className="text-justify p-6">
                             <h1 className="font-semibold">Let us assist you in the use of the searchbar!</h1>
-                            <p>You can use any of the elements of an article <strong>(title, content, time, image,
-                                source, category)</strong> followed closely by : and then closely by the term you want
-                                to search for </p>
-                            <p>After that you can chain multiple such terms and create a more complex query
-                                by using the words <strong>&quot;and&quot;, &quot;or&quot; or &quot;not&quot;</strong>
+                            <p>
+                                You can use any of the elements of an article
+                                <Chip size="sm" className="mx-1">title</Chip>,
+                                <Chip size="sm" className="mx-1">content</Chip>,
+                                <Chip size="sm" className="mx-1">time</Chip>,
+                                <Chip size="sm" className="mx-1">image</Chip>,
+                                <Chip size="sm" className="mx-1">source</Chip>,
+                                <Chip size="sm" className="mx-1">category</Chip>
+                                followed closely by : and then closely by the term you want to search for
                             </p>
-                            <p>Some examples:</p>
-                            <ul>
-                                <li> - <strong>title:greece and title:education</strong>, will bring back every article
-                                    that has <strong>both</strong> greece and education in the title
-                                </li>
-                                <li> - <strong>title:greece or title:education</strong>, will bring back every article
-                                    that has <strong>either</strong> greece or education in the title
-                                </li>
-                                <li> - <strong>title:greece not title:education</strong>, will bring back every article
-                                    that has greece <strong>except</strong> if it also has education in the title
-                                </li>
-                            </ul>
-                            <p className="font-semibold">Be careful, the words in the searchbar must be on lowercase and
-                                only one term per element in order to achieve a correct search </p>
+                            <p>
+                                After that you can chain multiple such terms and create a more complex query
+                                by using the words <Chip>and</Chip>, <Chip>or</Chip> or <Chip>not</Chip>
+                            </p>
+                            <Chip variant="flat" color="success">Some examples:</Chip>
+                            <p>
+                                <Code>title:greece AND title:education</Code> will bring back every article that has
+                                both greece and education in the title
+                            </p>
+                            <p>
+                                <Code>title:greece OR title:education</Code> will bring back every article
+                                that has either greece or education in the title
+                            </p>
+                            <p>
+                                <Code>title:greece NOT title:education</Code> will bring back every article
+                                that has greece except if it also has education in the title
+                            </p>
+                            <div className="flex justify-center items-center font-semibold text-sm mt-4">
+                                <Chip variant="flat" color="warning">
+                                    Be careful, the words in the searchbar must be on lowercase and
+                                    only one term per element in order to achieve a correct search
+                                </Chip>
+                            </div>
+
                         </ModalBody>
-                        <ModalFooter>
-                            <Button color="primary" variant="flat" onPress={onClose}>
-                                Close
-                            </Button>
-                        </ModalFooter>
                     </>
                 )
                 }
