@@ -11,7 +11,7 @@ import 'react-modern-drawer/dist/index.css'
 import SelectorsBlock from "@/components/admin/selectors-block";
 
 function AdminPage() {
-    const [activeCategory, setActiveCategory] = useState("users");
+    const [activeCategory, setActiveCategory] = useState("articles");
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     function changeActiveCategory(category) {
