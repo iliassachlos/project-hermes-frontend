@@ -1,9 +1,14 @@
+import UsersCard from "@/components/admin/users-block/users-card";
+
 function UsersBlock() {
     return (
-        <div>
-            <h1>Users Block</h1>
+        <div className="flex flex-col p-2">
+            <div>
+                <h1 className="text-2xl font-bold">Users</h1>
+                <UsersCard/>
+            </div>
         </div>
     )
 }
 
-export default UsersBlock;
+export default UsersBlock

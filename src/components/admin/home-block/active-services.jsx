@@ -1,15 +1,12 @@
 'use client'
 import {
-    Card,
-    CardBody,
     Chip, Progress,
-    Skeleton,
     Table,
     TableBody,
     TableCell,
     TableColumn,
     TableHeader,
-    TableRow, user
+    TableRow,
 } from "@nextui-org/react";
 import {useEffect, useState} from "react";
 import axios from "axios";
@@ -20,6 +17,7 @@ function ActiveServices() {
     const [userStatus, setUserStatus] = useState(500)
     const [apigwStatus, setApigwStatus] = useState(500)
     const [elasticStatus, setElasticStatus] = useState(500)
+    const [machineLearningStatus, setMachineLearningStatus] = useState(500)
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
@@ -61,11 +59,19 @@ function ActiveServices() {
         }
 
         try {
-            const userServiceResponse = await axios.get('http://localhost:8083/api/users/status')
-            setUserStatus(userServiceResponse.status)
+            const userStatusResponse = await axios.get('http://localhost:8083/api/users/status')
+            setUserStatus(userStatusResponse.status)
         } catch (error) {
             console.error("Error checking user service status:", error)
             setUserStatus(500)
+        }
+
+        try {
+            const machineLearningStatusResponse = await axios.get('http://localhost:8083/api/machine-learning/status')
+            setMachineLearningStatus(machineLearningStatusResponse.status)
+        } catch (error) {
+            console.error("Error checking scrape service status:", error)
+            setScrapeStatus(500)
         }
         setIsLoading(false)
     }
@@ -131,6 +137,18 @@ function ActiveServices() {
                         {isLoading ?
                             <Progress size="sm" isIndeterminate aria-label="Loading..." className="max-w-md"/>
                             : (elasticStatus === 200 ?
+                                    <Chip color="success" variant="flat">Active</Chip>
+                                    :
+                                    <Chip color="danger" variant="flat">Inactive</Chip>
+                            )}
+                    </TableCell>
+                </TableRow>
+                <TableRow key="6">
+                    <TableCell>Machine-Learning</TableCell>
+                    <TableCell>
+                        {isLoading ?
+                            <Progress size="sm" isIndeterminate aria-label="Loading..." className="max-w-md"/>
+                            : (machineLearningStatus === 200 ?
                                     <Chip color="success" variant="flat">Active</Chip>
                                     :
                                     <Chip color="danger" variant="flat">Inactive</Chip>
