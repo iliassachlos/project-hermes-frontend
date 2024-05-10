@@ -1,7 +1,7 @@
 'use client'
 import {useEffect, useState} from "react";
 import {useRouter} from "next/navigation";
-import ArticleCard from "@/components/shared/article-card";
+import ArticleCard from "@/components/feed/article-card";
 import {useAuth} from "@/context/auth-context";
 import axios from "axios";
 import {Pagination, Spinner} from "@nextui-org/react";

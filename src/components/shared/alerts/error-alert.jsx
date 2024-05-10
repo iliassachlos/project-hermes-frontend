@@ -1,12 +1,11 @@
-function ErrorAlert({message}) {
+import {Chip} from "@nextui-org/react";
+
+function ErrorMessage({message}) {
     return (
-        <div
-            className="p-4 mt-3 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
-            role="alert"
-        >
+        <Chip variant="flat" color="danger" radius="md">
             {message}
-        </div>
+        </Chip>
     );
 }
 
-export default ErrorAlert
+export default ErrorMessage

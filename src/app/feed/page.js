@@ -1,11 +1,11 @@
 'use client'
 import {useEffect, useState} from "react";
 import {useRouter} from "next/navigation";
-import ArticleCard from "@/components/shared/article-card";
+import ArticleCard from "@/components/feed/article-card";
 import {useAuth} from "@/context/auth-context";
 import axios from "axios";
 import {Card, CardBody, Pagination, Spinner} from "@nextui-org/react";
-import SearchBar from "@/components/shared/search-bar";
+import SearchBar from "@/components/feed/search-bar";
 import {usePagination} from "@/context/pagination-context";
 
 function FeedPage() {
