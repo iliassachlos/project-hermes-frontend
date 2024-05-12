@@ -7,11 +7,14 @@ import axios from "axios";
 import {Card, CardBody, Pagination, Spinner} from "@nextui-org/react";
 import SearchBar from "@/components/feed/search-bar";
 import {usePagination} from "@/context/pagination-context";
+import FacetList from "@/components/feed/facet-list";
 
 function FeedPage() {
     const [isLoading, setIsLoading] = useState(true);
-    const {currentPage, setCurrentPage, currentArticles, setArticles, pages} = usePagination();
+    const [showFacets, setShowFacets] = useState(false);
+    const [facets, setFacets] = useState([]);
     const {userInfo} = useAuth();
+    const {currentPage, setCurrentPage, currentArticles, setArticles, pages} = usePagination();
     const router = useRouter();
 
     useEffect(() => {
@@ -22,6 +25,7 @@ function FeedPage() {
         try {
             const response = await axios.get("http://localhost:8083/api/articles/all");
             setArticles(response.data);
+            setShowFacets(false);
         } catch (error) {
             console.error(error);
         } finally {
@@ -37,6 +41,32 @@ function FeedPage() {
     function onFilteredArticles(filteredArticles) {
         setArticles(filteredArticles.articles);
         console.log(filteredArticles.articles);
+        const sourceFacetsArray = Object.entries(filteredArticles.sourceFacets);
+        const categoryFacetsArray = Object.entries(filteredArticles.categoryFacets);
+        setFacets({sourceFacets: sourceFacetsArray, categoryFacets: categoryFacetsArray});
+        setShowFacets(true)
+    }
+
+    async function handleFacetClick(facet, type) {
+        const requestBody = {
+            must: [],
+            should: [],
+            must_not: []
+        };
+
+        // Add the clicked facet to the appropriate array
+        if (type === 'source') {
+            requestBody.should.push({ source: facet.toLowerCase() });
+        } else if (type === 'category') {
+            requestBody.should.push({ category: facet.toLowerCase() });
+        }
+        try {
+            console.log(requestBody)
+            const response = await axios.post('http://localhost:8083/api/elastic/search', requestBody);
+            onFilteredArticles(response.data);
+        } catch (error) {
+            console.error('Error searching:', error);
+        }
     }
 
     return (
@@ -48,13 +78,18 @@ function FeedPage() {
             {isLoading && <div className="flex justify-center items-center h-screen"><Spinner/></div>}
             {!isLoading && currentArticles.length > 0 && (
                 <>
-                    <div
-                        className="flex flex-col justify-center items-center md:grid md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 py-3 gap-3 md:p-4">
-                        {currentArticles.map((article, index) => (
-                            <div className="flex" key={index}>
-                                <ArticleCard article={article}/>
-                            </div>
-                        ))}
+                    <div className="flex flex-row justify-center items-center">
+                        <div className="flex flex-col justify-center items-center">
+                            {showFacets && <FacetList facets={facets} onFacetClick={handleFacetClick}/>}
+                        </div>
+                        <div
+                            className="flex flex-col justify-center items-center md:grid md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 py-3 gap-3 md:p-4">
+                            {currentArticles.map((article, index) => (
+                                <div className="flex" key={index}>
+                                    <ArticleCard article={article}/>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                     <div className="flex justify-center items-center mt-2 mb-4">
                         <Pagination total={pages} page={currentPage} onChange={handlePageChange} variant="flat"/>
