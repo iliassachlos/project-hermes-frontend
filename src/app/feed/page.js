@@ -13,6 +13,7 @@ function FeedPage() {
     const [isLoading, setIsLoading] = useState(true);
     const [showFacets, setShowFacets] = useState(false);
     const [facets, setFacets] = useState([]);
+    const [originalQuery, setOriginalQuery] = useState('');
     const {userInfo} = useAuth();
     const {currentPage, setCurrentPage, currentArticles, setArticles, pages} = usePagination();
     const router = useRouter();
@@ -48,31 +49,38 @@ function FeedPage() {
     }
 
     async function handleFacetClick(facet, type) {
-        const requestBody = {
-            must: [],
-            should: [],
-            must_not: []
-        };
-
-        // Add the clicked facet to the appropriate array
+        let facetObject = {};
         if (type === 'source') {
-            requestBody.should.push({ source: facet.toLowerCase() });
+            facetObject = { source: facet.toLowerCase() };
         } else if (type === 'category') {
-            requestBody.should.push({ category: facet.toLowerCase() });
+            facetObject = { category: facet.toLowerCase() };
         }
+
+        // Check if the facet is already in the must array
+        const index = originalQuery.must.findIndex(obj => JSON.stringify(obj) === JSON.stringify(facetObject));
+
+        if (index !== -1) {
+            // If the facet is already in the array, remove it
+            originalQuery.must.splice(index, 1);
+        } else {
+            // If the facet is not in the array, add it
+            originalQuery.must.push(facetObject);
+        }
+
         try {
-            console.log(requestBody)
-            const response = await axios.post('http://localhost:8083/api/elastic/search', requestBody);
+            console.log("must array", originalQuery.must)
+            const response = await axios.post('http://localhost:8083/api/elastic/search', originalQuery);
             onFilteredArticles(response.data);
         } catch (error) {
             console.error('Error searching:', error);
         }
     }
 
+
     return (
         <div className="p-2">
             <div className="flex justify-center items-center">
-                <SearchBar onFilteredArticles={onFilteredArticles} onFetchAllArticles={fetchAllArticles}/>
+                <SearchBar onFilteredArticles={onFilteredArticles} onFetchAllArticles={fetchAllArticles} onSearch={setOriginalQuery}/>
             </div>
             <h1 className="text-4xl font-semibold py-3 md:py-2 px-4">News Today</h1>
             {isLoading && <div className="flex justify-center items-center h-screen"><Spinner/></div>}
@@ -80,7 +88,7 @@ function FeedPage() {
                 <>
                     <div className="flex flex-row justify-center items-center">
                         <div className="flex flex-col justify-center items-center">
-                            {showFacets && <FacetList facets={facets} onFacetClick={handleFacetClick}/>}
+                            {showFacets && <FacetList facets={facets} onFacetClick={handleFacetClick} originalQuery={originalQuery}/>}
                         </div>
                         <div
                             className="flex flex-col justify-center items-center md:grid md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 py-3 gap-3 md:p-4">

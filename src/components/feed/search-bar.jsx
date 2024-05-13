@@ -1,13 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Button, Input} from "@nextui-org/react";
 import axios from 'axios';
 import SearchbarHelpModal from "@/components/shared/modals/searchbar-help-modal";
 import SavedQueriesModal from "@/components/feed/saved-queries-modal";
-import {log} from "next/dist/server/typescript/utils";
 import {useAuth} from "@/context/auth-context";
-import InfoAlert from "@/components/shared/alerts/info-alert";
 
-function SearchBar({onFilteredArticles, onFetchAllArticles}) {
+function SearchBar({onFilteredArticles, onFetchAllArticles, onSearch}) {
     const [query, setQuery] = useState('');
     const [showSuggestions, setShowSuggestions] = useState(false);
     const [isSearchbarHelpModalOpen, setIsSearchbarHelpModalOpen] = useState(false);
@@ -20,16 +18,9 @@ function SearchBar({onFilteredArticles, onFetchAllArticles}) {
     function parseQuery(query) {
         const keywords = {must: [], should: [], must_not: []};
         let isFirstKeyword = true;
-        let currentCondition = 'should';
+        let currentCondition = 'must';
 
         query.split(' ').forEach(term => {
-            if (term.toLowerCase() === 'and' && isFirstKeyword) {
-                keywords.must[0] = keywords.should[0]; // Changing the 1st keyword from should to must
-                keywords.should = []; // Clearing should for the next keywords
-                currentCondition = 'must'
-                isFirstKeyword = false;
-                return;
-            }
             if (term.toLowerCase() === 'and') {
                 currentCondition = 'must'; // Set the current condition to 'must'
                 isFirstKeyword = false;
@@ -62,6 +53,7 @@ function SearchBar({onFilteredArticles, onFetchAllArticles}) {
             const body = parseQuery(query);
             const response = await axios.post('http://localhost:8083/api/elastic/search', body);
             onFilteredArticles(response.data);
+            onSearch(body);
         } catch (error) {
             console.error('Error searching:', error);
         }
