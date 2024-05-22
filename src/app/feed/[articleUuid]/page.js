@@ -5,15 +5,15 @@ import axios from "axios";
 import {Button, Card, Skeleton, Tooltip} from "@nextui-org/react";
 import {Image} from "@nextui-org/react";
 import Link from "next/link";
-import {formatDate} from "@/utilities/format-date";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCalendar, faBookmark as faBookmarked} from "@fortawesome/free-solid-svg-icons";
+import {faBookmark as faBookmarked} from "@fortawesome/free-solid-svg-icons";
 import {faBookmark as faNotBookmarked} from "@fortawesome/free-regular-svg-icons"
 import {useAuth} from "@/context/auth-context";
+import SentimentCard from "@/components/shared/sentiment-card";
+import DateCard from "@/components/shared/date-card";
 
 function ArticleSinglePage() {
     const [article, setArticle] = useState()
-    const [isLoading, setIsLoading] = useState(false)
     const [isArticleBookmarked, setIsArticleBookmarked] = useState(false)
 
     const {userInfo} = useAuth()
@@ -34,8 +34,6 @@ function ArticleSinglePage() {
             setArticle(response.data)
         } catch (error) {
             console.error(error)
-        } finally {
-            setIsLoading(false)
         }
     }
 
@@ -91,17 +89,21 @@ function ArticleSinglePage() {
         }
     }
 
-    console.log(userInfo?.id)
-
+    // <DateCard articleTime={article?.time}/>
     return (
         <div className='xl:mx-40 p-4'>
             <Card>
                 <div className="p-4">
-                    <Skeleton className="rounded-md my-4" isLoaded={article}>
-                        <div className="flex mb-4">
-                            <h2 className="text-gray-500 text-sm capitalize">{article?.source}</h2>
-                            <span className="text-purple-500 font-bold mb-1 mx-1">&gt;</span>
-                            <h2 className="font-semibold text-sm capitalize">{article?.category}</h2>
+                    <Skeleton className="rounded-md" isLoaded={article}>
+                        <div className="flex justify-between items-center my-4">
+                            <div className="flex">
+                                <h2 className="text-gray-500 text-sm capitalize">{article?.source}</h2>
+                                <span className="text-purple-500 font-bold mx-1">&gt;</span>
+                                <h2 className="font-semibold text-sm capitalize">{article?.category}</h2>
+                            </div>
+                            <div className="flex">
+                                <DateCard articleTime={article?.time}/>
+                            </div>
                         </div>
                     </Skeleton>
                     <Skeleton className="rounded-md my-4" isLoaded={article}>
@@ -119,10 +121,9 @@ function ArticleSinglePage() {
                         </div>
                     </Skeleton>
                     <Skeleton className="rounded-md my-4" isLoaded={article}>
-                        <div className="flex flex-row justify-between items-center mt-4 border-b-2 p-2">
-                            <div className="flex justify-start my-1">
-                                <FontAwesomeIcon className="text-white" icon={faCalendar}/>
-                                <h2 className="text-sm mx-2">{formatDate(article?.time)}</h2>
+                        <div className="flex flex-row justify-between items-center mt-2 border-b-2 p-2">
+                            <div className="flex justify-start text-sm my-1">
+                                <SentimentCard sentimentScore={article?.sentimentScore}/>
                             </div>
                             <div className="flex justify-center items-center">
                                 <div className="cursor-pointer hover:scale-105 ease-in duration-200 mx-4">
@@ -143,6 +144,7 @@ function ArticleSinglePage() {
                                     </Link>
                                 </div>
                             </div>
+
                         </div>
                     </Skeleton>
                     <Skeleton className="rounded-md my-" isLoaded={article}>
