@@ -24,7 +24,7 @@ function UsersBookmarkModal({selectedUserId, isUserBookmarkModalOpen, onBookmark
 
     async function fetchBookmarkedArticles() {
         try {
-            const response = await axios.get(`http://localhost:8083/api/users/bookmarks/${selectedUserId}`);
+            const response = await axios.get(`http://localhost:8083/api/users/bookmark/${selectedUserId}`);
             setBookmarkedArticles(response.data);
         } catch (error) {
             console.error(error);

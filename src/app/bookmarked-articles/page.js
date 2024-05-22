@@ -26,7 +26,7 @@ function BookmarkedArticlesPage() {
 
     async function fetchAllArticles() {
         try {
-            const response = await axios.get(`http://localhost:8083/api/users/bookmarks/${userInfo?.id}`)
+            const response = await axios.get(`http://localhost:8083/api/users/bookmark/${userInfo?.id}`)
             setBookmarkedArticles(response.data)
             setTotalPages(Math.ceil(response.data.length / bookmarkedArticlesPerPage))
         } catch (error) {

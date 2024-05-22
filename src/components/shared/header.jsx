@@ -1,12 +1,13 @@
 import {
-    Button,
+    Avatar,
+    Button, Divider, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger,
     Navbar,
     NavbarBrand,
     NavbarContent,
     NavbarItem,
     NavbarMenu,
     NavbarMenuItem,
-    NavbarMenuToggle
+    NavbarMenuToggle, user
 } from "@nextui-org/react";
 import Link from "next/link";
 import {useEffect, useState} from "react";
@@ -19,10 +20,11 @@ function Header() {
     const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
 
     const {isAuthenticated, logout} = useAuth()
+    const {userInfo} = useAuth()
 
     useEffect(() => {
         setIsMenuOpen(false)
-    }, [isAuthenticated])
+    }, [isAuthenticated, userInfo])
 
     function handleLogout() {
         setIsLogoutModalOpen(false)
@@ -33,102 +35,58 @@ function Header() {
         setIsLogoutModalOpen(!isLogoutModalOpen)
     }
 
+    if (isAuthenticated) {
+        console.log(userInfo.username)
+    }
+
     return (
         <>
             <Navbar isBordered isMenuOpen={isMenuOpen} onMenuOpenChange={setIsMenuOpen}>
                 <NavbarBrand>
-                    <p className="font-bold cursor-pointer hover:scale-105 ease-in duration-200">
+                    <p className="font-semibold text-xl cursor-pointer hover:scale-105 ease-in duration-200">
                         <Link href={isAuthenticated ? "/feed" : "/"}>
                             Hermes
                         </Link>
                     </p>
                 </NavbarBrand>
-                <NavbarContent className="hidden sm:flex gap-4" justify="center">
-                    {/* When user is logged in */}
-                    {isAuthenticated &&
-                        <>
-                            <NavbarItem isActive>
-                                <Link href="/feed" aria-current="page">
-                                    Feed
-                                </Link>
-                            </NavbarItem>
-                            <NavbarItem>
-                                <Link href="/bookmarked-articles" color="foreground">
-                                    Bookmarks
-                                </Link>
-                            </NavbarItem>
-                        </>
-                    }
-                </NavbarContent>
-                {/* Desktop menu */}
-                <NavbarContent justify="end">
-                    {/* When user is logged in */}
-                    {isAuthenticated &&
-                        <>
-                            <NavbarItem className="hidden lg:flex">
-                                <Button color="primary" variant="flat" onClick={logoutModalHandler}>
-                                    Log Out
-                                </Button>
-                            </NavbarItem>
-                        </>
-                    }
-                    {/* When user is not logged in*/}
-                    {!isAuthenticated &&
-                        <>
-                            <NavbarItem className="hidden lg:flex">
-                                <Link href="/login">
-                                    <Button variant="flat" color="primary">
-                                        Login
-                                    </Button>
-                                </Link>
-                            </NavbarItem>
-                            <NavbarItem className="hidden lg:flex">
-                                <Link href="/register">
-                                    <Button variant="flat" color="primary">
-                                        Register
-                                    </Button>
-                                </Link>
-                            </NavbarItem>
-                        </>
-                    }
-                    <NavbarMenuToggle
-                        aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-                        className="sm:hidden"
-                    />
-                    {/* Mobile menu */}
-                    <NavbarMenu>
-                        {/* When user is logged in */}
+                <NavbarContent as="div" justify="end">
+                    <Dropdown placement="bottom-end">
+                        <DropdownTrigger>
+                            <Avatar
+                                isBordered
+                                as="button"
+                                className="transition-transform"
+                                color="secondary"
+                                size="sm"
+                                src="https://static.vecteezy.com/system/resources/previews/020/765/399/large_2x/default-profile-account-unknown-icon-black-silhouette-free-vector.jpg"
+                            />
+                        </DropdownTrigger>
+                        {/*When user is logged in*/}
                         {isAuthenticated &&
-                            <>
-                                <NavbarMenuItem className="hover:text-blue-500 ease-in duration-200 text-xl">
-                                    <Link href="/feed">Feed</Link>
-                                </NavbarMenuItem>
-                                <NavbarMenuItem className="hover:text-blue-500 ease-in duration-200 text-xl">
-                                    <Link href="/bookmarked-articles">Bookmarked Articles</Link>
-                                </NavbarMenuItem>
-                                <NavbarMenuItem
-                                    className="text-red-500 ease-in duration-200 text-xl"
-                                    onClick={logoutModalHandler}
-                                >
-                                    Log Out
-                                </NavbarMenuItem>
-                            </>
+                            <DropdownMenu aria-label="Menu Actions" variant="flat">
+                                <DropdownItem key="info" className="mt-1">
+                                    <h1>
+                                        Welcome back <span className="font-semibold">{userInfo.username}</span> !
+                                    </h1>
+                                    <Divider className="mt-2"/>
+                                </DropdownItem>
+                                <DropdownItem key="feed" href="/feed">Feed</DropdownItem>
+                                <DropdownItem key="bookmarked-articles" href="/bookmarked-articles">
+                                    Bookmarked Articles
+                                </DropdownItem>
+                                <DropdownItem key="charts" href="/charts">Charts</DropdownItem>
+                                <DropdownItem key="logout" onClick={logoutModalHandler}>Logout</DropdownItem>
+                            </DropdownMenu>
                         }
-                        {/* When user is not logged in */}
+                        {/*When user is not logged in*/}
                         {!isAuthenticated &&
-                            <>
-                                <NavbarMenuItem className="hover:text-blue-500 ease-in duration-200 text-xl">
-                                    <Link href="/public">Home</Link>
-                                </NavbarMenuItem>
-                                <NavbarMenuItem className="hover:text-blue-500 ease-in duration-200 text-xl">
-                                    <Link href="/login">Login</Link>
-                                </NavbarMenuItem>
-                                <NavbarMenuItem className="hover:text-blue-500 ease-in duration-200 text-xl">
-                                    <Link href="/register">Register</Link>
-                                </NavbarMenuItem>
-                            </>
+                            <DropdownMenu aria-label="Menu Actions" variant="flat">
+                                <DropdownItem key="home" href="/">Home</DropdownItem>
+                                <DropdownItem key="login" href="/login">Login</DropdownItem>
+                                <DropdownItem key="register" href="/register">Register</DropdownItem>
+                            </DropdownMenu>
                         }
-                    </NavbarMenu>
+                    </Dropdown>
                 </NavbarContent>
             </Navbar>
             {isLogoutModalOpen &&

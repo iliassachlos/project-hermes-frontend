@@ -31,7 +31,7 @@ function SavedQueriesModal({isOpen, onshowQueryModalHandler, onsetSavedQueryHand
     async function fetchQueries() {
         try {
             const userId = userInfo.id
-            const response = await axios.get(`http://localhost:8083/api/users/queries/${userId}/all`)
+            const response = await axios.get(`http://localhost:8083/api/users/query/${userId}/all`)
             setQueries(response.data)
         } catch (error) {
             console.log(error);
@@ -44,7 +44,7 @@ function SavedQueriesModal({isOpen, onshowQueryModalHandler, onsetSavedQueryHand
     async function deleteQuery(index) {
         try {
             const userId = userInfo.id
-            await axios.delete(`http://localhost:8083/api/users/queries/${userId}/${index}/delete`)
+            await axios.delete(`http://localhost:8083/api/users/query/${userId}/${index}/delete`)
         } catch (error) {
             console.log(error);
         }finally {

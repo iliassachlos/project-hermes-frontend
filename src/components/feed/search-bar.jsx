@@ -78,7 +78,7 @@ function SearchBar({onFilteredArticles, onFetchAllArticles, onSearch}) {
     async function saveQueryHandler() {
         try {
             const userId = userInfo.id
-            await axios.post('http://localhost:8083/api/users/queries/add', {
+            await axios.post('http://localhost:8083/api/users/query/add', {
                 id: userId,
                 query: query
             })

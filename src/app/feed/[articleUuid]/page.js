@@ -51,7 +51,7 @@ function ArticleSinglePage() {
         try {
             if (userInfo) {
                 const userId = userInfo.id
-                const response = await axios.get(`http://localhost:8083/api/users/bookmarks/${userId}`)
+                const response = await axios.get(`http://localhost:8083/api/users/bookmark/${userId}`)
                 const bookmarkedArticles = response.data
                 const isBookmarked = bookmarkedArticles.some((article) => article.uuid === articleUuid)
                 setIsArticleBookmarked(isBookmarked)
@@ -65,7 +65,7 @@ function ArticleSinglePage() {
         try {
             if (userInfo) {
                 const userId = userInfo.id
-                await axios.post('http://localhost:8083/api/users/bookmarks/add', {
+                await axios.post('http://localhost:8083/api/users/bookmark/add', {
                     articleId: articleUuid,
                     userId: userId
                 })
@@ -80,7 +80,7 @@ function ArticleSinglePage() {
     async function removeBookmark() {
         try {
             const userId = userInfo.id;
-            await axios.put(`http://localhost:8083/api/users/bookmarks/delete`, {
+            await axios.put(`http://localhost:8083/api/users/bookmark/delete`, {
                 articleId: articleUuid,
                 userId: userId
             });
