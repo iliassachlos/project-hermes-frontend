@@ -20,7 +20,7 @@ function WebsitesBlock() {
                 />
             }
             <div>
-                <h1 className="text-2xl font-bold">Websites</h1>
+                <h1 className="text-2xl font-semibold">Websites</h1>
                 <Button
                     className="my-2"
                     radius="md"

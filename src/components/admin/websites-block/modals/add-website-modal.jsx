@@ -4,14 +4,7 @@ import {
     ModalBody,
     ModalContent, ModalFooter,
     ModalHeader,
-    Table, TableBody, TableCell,
-    TableColumn,
-    TableHeader, TableRow,
-    Tooltip
 } from "@nextui-org/react";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faPlus, faTrash} from "@fortawesome/free-solid-svg-icons";
-import Link from "next/link";
 import {useState} from "react";
 import axios from "axios";
 

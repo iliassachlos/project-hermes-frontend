@@ -2,13 +2,13 @@
 import {Button, Divider} from "@nextui-org/react";
 import Sidebar from "@/components/admin/sidebar/sidebar";
 import {useState} from "react";
-import WebsitesBlock from "@/components/admin/websites-block";
-import ArticlesBlock from "@/components/admin/articles-block";
-import UsersBlock from "@/components/admin/users-block";
-import HomeBlock from "@/components/admin/home-block";
+import WebsitesBlock from "@/components/admin/websites-block/websites-block";
+import ArticlesBlock from "@/components/admin/articles-block/articles-block";
+import UsersBlock from "@/components/admin/users-block/users-block";
+import HomeBlock from "@/components/admin/home-block/home-block";
 import Drawer from "react-modern-drawer"
 import 'react-modern-drawer/dist/index.css'
-import SelectorsBlock from "@/components/admin/selectors-block";
+import SelectorsBlock from "@/components/admin/selectors-block/selectors-block";
 
 function AdminPage() {
     const [activeCategory, setActiveCategory] = useState("articles");

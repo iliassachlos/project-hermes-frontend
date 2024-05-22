@@ -35,10 +35,6 @@ function Header() {
         setIsLogoutModalOpen(!isLogoutModalOpen)
     }
 
-    if (isAuthenticated) {
-        console.log(userInfo.username)
-    }
-
     return (
         <>
             <Navbar isBordered isMenuOpen={isMenuOpen} onMenuOpenChange={setIsMenuOpen}>
@@ -75,7 +71,8 @@ function Header() {
                                     Bookmarked Articles
                                 </DropdownItem>
                                 <DropdownItem key="charts" href="/charts">Charts</DropdownItem>
-                                <DropdownItem key="logout" onClick={logoutModalHandler}>Logout</DropdownItem>
+                                <DropdownItem className="text-red-500" key="logout"
+                                              onClick={logoutModalHandler}>Logout</DropdownItem>
                             </DropdownMenu>
                         }
                         {/*When user is not logged in*/}

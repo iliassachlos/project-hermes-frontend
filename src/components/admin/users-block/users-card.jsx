@@ -75,7 +75,7 @@ function UsersCard() {
                     }
                     {users.map((user) => (
                         <TableRow key={user.id}>
-                            <TableCell><h1 className="font-bold">{user.email}</h1></TableCell>
+                            <TableCell><h1 className="font-semibold">{user.email}</h1></TableCell>
                             <TableCell>{user.username}</TableCell>
                             <TableCell>{user.password.slice(0, 20)} ...</TableCell>
                             <TableCell>

@@ -4,7 +4,7 @@ function ArticlesBlock(){
     return (
         <div className="flex flex-col p-2">
             <div>
-                <h1 className="text-2xl font-bold mb-2">Articles</h1>
+                <h1 className="text-2xl font-semibold mb-2">Articles</h1>
                 <ArticlesCard/>
             </div>
         </div>
