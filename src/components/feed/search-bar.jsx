@@ -13,34 +13,46 @@ function SearchBar({onFilteredArticles, onFetchAllArticles, onSearch}) {
 
     const {userInfo} = useAuth()
 
-    const suggestions = ['title:', 'content:', 'time:', 'image:', 'source:', 'category:'];
+    const suggestions = ['title:', 'content:', 'time:', 'image:', 'source:', 'category:', 'sentimentScore'];
+
+    const fieldMapping = {
+        'title': 'title',
+        'content': 'content',
+        'time': 'time',
+        'image': 'image',
+        'source': 'source',
+        'category': 'category',
+        'sentimentscore': 'sentimentScore' // Ensure the lowercase key maps to the correctly cased value
+    };
 
     function parseQuery(query) {
         const keywords = {must: [], should: [], must_not: []};
-        let isFirstKeyword = true;
         let currentCondition = 'must';
+
+        //Define numeric fields
+        const numericFields = new Set(['sentimentscore']);
 
         query.split(' ').forEach(term => {
             if (term.toLowerCase() === 'and') {
                 currentCondition = 'must'; // Set the current condition to 'must'
-                isFirstKeyword = false;
                 return;
             }
             if (term.toLowerCase() === 'or') {
                 currentCondition = 'should'; // Set the current condition to 'should'
-                isFirstKeyword = false;
                 return;
             }
             if (term.toLowerCase() === 'not') {
                 currentCondition = 'must_not'; // Set the current condition to 'must_not'
-                isFirstKeyword = false;
                 return;
             }
 
             const [field, value] = term.split(':');
             const keyword = field ? field.toLowerCase() : 'content';
             if (value) {
-                const condition = {[keyword]: value};
+                const fieldName = fieldMapping[keyword] || keyword;
+                // Check if the field should be numeric and convert the value if needed
+                const conditionValue = numericFields.has(fieldName) ? parseFloat(value) : value;
+                const condition = { [fieldName]: conditionValue };
                 keywords[currentCondition].push(condition);
             }
         });
@@ -51,6 +63,7 @@ function SearchBar({onFilteredArticles, onFetchAllArticles, onSearch}) {
     async function handleSearch() {
         try {
             const body = parseQuery(query);
+            console.log(body)
             const response = await axios.post('http://localhost:8083/api/elastic/search', body);
             onFilteredArticles(response.data);
             onSearch(body);

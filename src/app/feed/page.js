@@ -44,16 +44,23 @@ function FeedPage() {
         console.log(filteredArticles.articles);
         const sourceFacetsArray = Object.entries(filteredArticles.sourceFacets);
         const categoryFacetsArray = Object.entries(filteredArticles.categoryFacets);
-        setFacets({sourceFacets: sourceFacetsArray, categoryFacets: categoryFacetsArray});
+        const sentimentFacetsArray = Object.entries(filteredArticles.sentimentFacets);
+        setFacets({
+            sourceFacets: sourceFacetsArray,
+            categoryFacets: categoryFacetsArray,
+            sentimentFacets: sentimentFacetsArray
+        });
         setShowFacets(true)
     }
 
     async function handleFacetClick(facet, type) {
         let facetObject = {};
         if (type === 'source') {
-            facetObject = { source: facet.toLowerCase() };
+            facetObject = {source: facet.toLowerCase()};
         } else if (type === 'category') {
-            facetObject = { category: facet.toLowerCase() };
+            facetObject = {category: facet.toLowerCase()};
+        } else if (type === 'sentimentScore') {
+            facetObject = {sentimentScore: facet}
         }
 
         // Check if the facet is already in the must array
@@ -80,7 +87,8 @@ function FeedPage() {
     return (
         <div className="p-2">
             <div className="flex justify-center items-center">
-                <SearchBar onFilteredArticles={onFilteredArticles} onFetchAllArticles={fetchAllArticles} onSearch={setOriginalQuery}/>
+                <SearchBar onFilteredArticles={onFilteredArticles} onFetchAllArticles={fetchAllArticles}
+                           onSearch={setOriginalQuery}/>
             </div>
             <h1 className="text-4xl font-semibold py-3 md:py-2 px-4">News Today</h1>
             {isLoading && <div className="flex justify-center items-center h-screen"><Spinner/></div>}
@@ -88,7 +96,8 @@ function FeedPage() {
                 <>
                     <div className="flex flex-row justify-center items-center">
                         <div className="flex flex-col justify-center items-center">
-                            {showFacets && <FacetList facets={facets} onFacetClick={handleFacetClick} originalQuery={originalQuery}/>}
+                            {showFacets && <FacetList facets={facets} onFacetClick={handleFacetClick}
+                                                      originalQuery={originalQuery}/>}
                         </div>
                         <div
                             className="flex flex-col justify-center items-center md:grid md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 py-3 gap-3 md:p-4">
