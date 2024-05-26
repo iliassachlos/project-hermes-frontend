@@ -1,4 +1,4 @@
-import {Button, Chip, Code, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader} from "@nextui-org/react";
+import {Chip, Code, Modal, ModalBody, ModalContent, ModalHeader} from "@nextui-org/react";
 
 function SearchbarHelpModal({onSearchbarHelpHandler, isOpen}) {
     return (
@@ -11,11 +11,11 @@ function SearchbarHelpModal({onSearchbarHelpHandler, isOpen}) {
                             <h1 className="font-semibold">Let us assist you in the use of the searchbar!</h1>
                             <p>
                                 You can use any of the elements of an article
-                                <Chip size="sm" className="mx-1">title</Chip>,
-                                <Chip size="sm" className="mx-1">content</Chip>,
-                                <Chip size="sm" className="mx-1">time</Chip>,
-                                <Chip size="sm" className="mx-1">image</Chip>,
-                                <Chip size="sm" className="mx-1">source</Chip>,
+                                <Chip size="sm" className="mx-1">title</Chip>
+                                <Chip size="sm" className="mx-1">content</Chip>
+                                <Chip size="sm" className="mx-1">time</Chip>
+                                <Chip size="sm" className="mx-1">image</Chip>
+                                <Chip size="sm" className="mx-1">source</Chip>
                                 <Chip size="sm" className="mx-1">category</Chip>
                                 followed closely by : and then closely by the term you want to search for
                             </p>

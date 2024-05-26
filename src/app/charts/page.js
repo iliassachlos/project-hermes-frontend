@@ -1,39 +1,69 @@
 'use client'
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import SentimentChart from "@/components/charts/SentimentChart";
+import {Chip, Spinner} from "@nextui-org/react";
+import CategoryChart from "@/components/charts/category-chart";
+import axios from "axios";
+import {useEffect, useState} from "react";
+import SentimentChart from "@/components/charts/sentiment-chart";
 
-
-function SentimentPage() {
-    const [sentimentScoreDistribution, setSentimentScoreDistribution] = useState(null);
-    const [loading, setLoading] = useState(true);
+function ChartsPage() {
+    const [articles, setArticles] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
 
+    const [sentimentScoreDistribution, setSentimentScoreDistribution] = useState(null);
+
+
     useEffect(() => {
-        const fetchSentimentData = async () => {
-            try {
-                const response = await axios.post('http://localhost:8083/api/elastic/chart');
-                setSentimentScoreDistribution(response.data.sentimentScoreDistribution);
-                setLoading(false);
-            } catch (error) {
-                setError(error.message);
-                setLoading(false);
-            }
-        };
+        fetchAllArticles();
 
         fetchSentimentData();
+
     }, []);
 
+    async function fetchAllArticles() {
+        try {
+            const response = await axios.get('http://localhost:8083/api/articles/all');
+            setArticles(response.data);
+        } catch (error) {
+            console.log(error);
+            setError(error);
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
+    async function fetchSentimentData() {
+        try {
+            const response = await axios.post('http://localhost:8083/api/elastic/chart')
+            setSentimentScoreDistribution(response.data.sentimentScoreDistribution)
+        } catch (error) {
+            setError(error.message)
+        }
+    }
+
     return (
-        <div>
-            <h1>Sentiment Analysis</h1>
-            {loading && <p>Loading...</p>}
-            {error && <p>Error: {error}</p>}
-                    {sentimentScoreDistribution && (
-                        <SentimentChart sentimentScoreDistribution={sentimentScoreDistribution} />
-                    )}
+        <div className="p-4">
+            <h1 className="text-4xl font-semibold pb-8">Charts</h1>
+            {isLoading && (
+                <div className="flex justify-center items-center h-screen">
+                    <Spinner/>
+                </div>
+            )}
+            {!isLoading && error &&
+                <div className="flex justify-center items-center h-screen">
+                    <Chip variant="flat">
+                        <h1>An error occurred. Please try to reload the page</h1>
+                    </Chip>
+                </div>
+            }
+            {!isLoading && !error && (
+                <div className="flex flex-col md:grid md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-2 gap-y-8">
+                    <CategoryChart articles={articles}/>
+                    <SentimentChart sentimentScoreDistribution={sentimentScoreDistribution} />
+                </div>
+            )}
         </div>
     );
 }
 
-export default SentimentPage;
+export default ChartsPage;

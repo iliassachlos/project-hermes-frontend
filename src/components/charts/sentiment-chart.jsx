@@ -1,6 +1,7 @@
 import React from 'react';
 import {Bar} from 'react-chartjs-2';
 import {BarElement, CategoryScale, Chart as ChartJS, Legend, LinearScale, Title, Tooltip} from 'chart.js';
+import {Card, CardBody, CardHeader} from "@nextui-org/react";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -21,30 +22,20 @@ function SentimentChart({sentimentScoreDistribution}) {
         ],
     }
 
-    const chartOptions = {
-                responsive: true,
-        scales: {
-            y: {
-                beginAtZero: true,
-            },
-        },
-        plugins: {
-            legend: {
-                position: 'top',
-            },
-            title: {
-                display: true,
-                text: 'Sentiment Score Distribution',
-            },
-        },
-    }
+    const options = {
+        maintainAspectRatio: false,
+        responsive: true,
+    };
 
     return (
-        <div className="flex justify-center items-center h-screen">
-            <div className="w-full max-w-2xl">
-                <Bar data={chartData} options={chartOptions} />
-            </div>
-        </div>
+        <Card className="flex flex-col" radius="md">
+            <CardHeader>
+                <h1 className="text-xl">Sentiment</h1>
+            </CardHeader>
+            <CardBody>
+                <Bar className="w-full" data={chartData} options={options}/>
+            </CardBody>
+        </Card>
     );
 }
 
