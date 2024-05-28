@@ -1,26 +1,23 @@
+import React from 'react';
 import {Bar} from 'react-chartjs-2';
 import {BarElement, CategoryScale, Chart as ChartJS, Legend, LinearScale, Title, Tooltip} from 'chart.js';
 import {Card, CardBody, CardHeader} from "@nextui-org/react";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-function SentimentChart({sentimentScoreDistribution}) {
+function BarChart({sentimentScoreDistribution, aggregationType}) {
     const labels = Object.keys(sentimentScoreDistribution);
     const counts = Object.values(sentimentScoreDistribution);
 
     const chartData = {
-        labels: ['Very Negative','Negative','Neutral','Positive','Very Positive'],
+        labels: labels,
         datasets: [
             {
-                label: 'Sentiment Score Dataset',
+                label: `${aggregationType} Distribution`,
                 data: counts,
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(255, 159, 64, 0.2)',
-                    'rgba(201, 203, 207, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(75, 192, 192, 0.2)'
-                ],
+                backgroundColor: '#9966FF',
+                borderColor: '#2a007f',
+                borderWidth: 2,
             },
         ],
     }
@@ -33,7 +30,7 @@ function SentimentChart({sentimentScoreDistribution}) {
     return (
         <Card className="flex flex-col" radius="md">
             <CardHeader>
-                <h1 className="text-xl">Sentiment</h1>
+                <h1 className="text-xl">{aggregationType}</h1>
             </CardHeader>
             <CardBody>
                 <Bar className="w-full" data={chartData} options={options}/>
@@ -42,4 +39,4 @@ function SentimentChart({sentimentScoreDistribution}) {
     );
 }
 
-export default SentimentChart;
+export default BarChart;
