@@ -15,6 +15,7 @@ import DateCard from "@/components/shared/date-card";
 function ArticleSinglePage() {
     const [article, setArticle] = useState()
     const [isArticleBookmarked, setIsArticleBookmarked] = useState(false)
+    const [isLoading, setIsLoading] = useState(true)
 
     const {userInfo} = useAuth()
     const {articleUuid} = useParams()

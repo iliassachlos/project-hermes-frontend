@@ -4,40 +4,31 @@ import CategoryChart from "@/components/charts/category-chart";
 import axios from "axios";
 import {useEffect, useState} from "react";
 import SentimentChart from "@/components/charts/sentiment-chart";
+import SourceChart from "@/components/charts/source-chart";
 
 function ChartsPage() {
-    const [articles, setArticles] = useState([]);
+    const [sentimentScoreDistribution, setSentimentScoreDistribution] = useState(null);
+    const [categoryDistribution, setCategoryDistribution] = useState(null);
+    const [sourceDistribution, setSourceDistribution] = useState(null);
+
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const [sentimentScoreDistribution, setSentimentScoreDistribution] = useState(null);
-
 
     useEffect(() => {
-        fetchAllArticles();
-
-        fetchSentimentData();
-
+        fetchChartsData();
     }, []);
 
-    async function fetchAllArticles() {
-        try {
-            const response = await axios.get('http://localhost:8083/api/articles/all');
-            setArticles(response.data);
-        } catch (error) {
-            console.log(error);
-            setError(error);
-        } finally {
-            setIsLoading(false);
-        }
-    }
-
-    async function fetchSentimentData() {
+    async function fetchChartsData() {
         try {
             const response = await axios.post('http://localhost:8083/api/elastic/chart')
             setSentimentScoreDistribution(response.data.sentimentScoreDistribution)
+            setCategoryDistribution(response.data.categoryDistribution)
+            setSourceDistribution(response.data.sourceDistribution)
         } catch (error) {
             setError(error.message)
+        } finally {
+            setIsLoading(false)
         }
     }
 
@@ -58,8 +49,9 @@ function ChartsPage() {
             }
             {!isLoading && !error && (
                 <div className="flex flex-col md:grid md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-2 gap-y-8">
-                    <CategoryChart articles={articles}/>
-                    <SentimentChart sentimentScoreDistribution={sentimentScoreDistribution} />
+                    <CategoryChart categoryDistribution={categoryDistribution}/>
+                    <SentimentChart sentimentScoreDistribution={sentimentScoreDistribution}/>
+                    <SourceChart sourceDistribution={sourceDistribution}/>
                 </div>
             )}
         </div>

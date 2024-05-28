@@ -4,9 +4,9 @@ import {ArcElement, Chart as ChartJS, Legend, Tooltip} from "chart.js";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-function CategoryChart({categoryDistribution}) {
-    const labels = Object.keys(categoryDistribution);
-    const counts = Object.values(categoryDistribution);
+function SourceChart({sourceDistribution}) {
+    const labels = Object.keys(sourceDistribution);
+    const counts = Object.values(sourceDistribution);
 
     const chartData = {
         labels: labels,
@@ -26,7 +26,7 @@ function CategoryChart({categoryDistribution}) {
     return (
         <Card className="flex flex-col" radius="md">
             <CardHeader>
-                <h1 className="text-xl">Categories</h1>
+                <h1 className="text-xl">Sources</h1>
             </CardHeader>
             <CardBody>
                 <Doughnut data={chartData} className="w-[700px]" options={options}/>
@@ -35,4 +35,4 @@ function CategoryChart({categoryDistribution}) {
     );
 }
 
-export default CategoryChart;
+export default SourceChart;
