@@ -5,7 +5,7 @@ import {ArcElement, Chart as ChartJS, Legend, Tooltip} from "chart.js";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-function PieChart({categoryDistribution, aggregationType}) {
+function CategoriesChart({categoryDistribution, aggregationType}) {
     const labels = Object.keys(categoryDistribution);
     const data = Object.values(categoryDistribution)
 
@@ -37,4 +37,4 @@ function PieChart({categoryDistribution, aggregationType}) {
     );
 }
 
-export default PieChart;
+export default CategoriesChart;

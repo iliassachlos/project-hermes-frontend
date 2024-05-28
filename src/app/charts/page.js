@@ -1,10 +1,12 @@
 'use client'
 import React from "react";
-import {Button, Chip, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Spinner} from "@nextui-org/react";
-import PieChart from "@/components/charts/pie-chart";
+import {Chip, Spinner} from "@nextui-org/react";
 import axios from "axios";
 import {useEffect, useState} from "react";
-import BarChart from "@/components/charts/bar-chart";
+import SentimentChart from "@/components/charts/sentiment-chart";
+import DateDropdown from "@/components/charts/date-dropdown";
+import CategoriesChart from "@/components/charts/categories-chart";
+import SourceChart from "@/components/charts/source-chart";
 
 function ChartsPage() {
     const [isLoading, setIsLoading] = useState(true);
@@ -48,30 +50,15 @@ function ChartsPage() {
                 </div>
             }
             {!isLoading && !error && (
-                <div className="flex flex-col md:grid md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-2 gap-y-8">
-                    <Dropdown>
-                        <DropdownTrigger>
-                            <Button
-                                variant="solid"
-                            >
-                                Set Desired Date Range
-                            </Button>
-                        </DropdownTrigger>
-                        <DropdownMenu
-                            aria-label="Action event example"
-                            onAction={(key) => fetchSentimentData(key)}
-                        >
-                            <DropdownItem key="3">3 days ago</DropdownItem>
-                            <DropdownItem key="7">A week ago</DropdownItem>
-                            <DropdownItem key="30">A month ago</DropdownItem>
-                            <DropdownItem key="90">3 month ago</DropdownItem>
-                            <DropdownItem key="180">6 month ago</DropdownItem>
-                            <DropdownItem key="365">A year ago</DropdownItem>
-                        </DropdownMenu>
-                    </Dropdown>
-                    <PieChart categoryDistribution={categoryDistribution} aggregationType="Categories"/>
-                    <BarChart sentimentScoreDistribution={sentimentScoreDistribution} aggregationType="Sentiment"/>
-                    <PieChart categoryDistribution={sourceDistribution} aggregationType="Sources"/>
+                <div>
+                    <div className="mb-3">
+                        <DateDropdown onFetchSentimentData={fetchSentimentData}/>
+                    </div>
+                    <div className="flex flex-col md:grid md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-2 gap-y-8">
+                        <CategoriesChart categoryDistribution={categoryDistribution} aggregationType="Categories"/>
+                        <SentimentChart sentimentScoreDistribution={sentimentScoreDistribution} aggregationType="Sentiment"/>
+                        <SourceChart categoryDistribution={sourceDistribution} aggregationType="Sources"/>
+                    </div>
                 </div>
             )}
         </div>
