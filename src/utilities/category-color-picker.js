@@ -1,4 +1,4 @@
-function categoryColorPicker(category){
+export function categoryColorPicker(category){
     switch (category) {
         case "politics":
             return "bg-blue-200"
